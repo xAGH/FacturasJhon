@@ -12,16 +12,15 @@ services:
     volumes:
       - db:/var/lib/mysql
     healthcheck:
-      test: ["CMD", "mysql_ping", "-h", "localhost"]
-      interval: 10s
-      timeout: 1s
-      retries: 3
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
     restart: always
   
   app:
     build:
       context: .
-      image: facturas_jhon:latest
+    image: facturas_jhon:latest
     ports:
       - "3000:3000"
     depends_on:
@@ -29,3 +28,4 @@ services:
         condition: service_healthy
     volumes:
       - .:/app
+    restart: always
