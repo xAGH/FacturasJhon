@@ -1,0 +1,31 @@
+version: '2.1'
+volumes:
+  db:
+services:
+  database:
+    image: mysql:8
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: facturas_jhon
+    expose:
+      - "3306"
+    volumes:
+      - db:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysql_ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 1s
+      retries: 3
+    restart: always
+  
+  app:
+    build:
+      context: .
+      image: facturas_jhon:latest
+    ports:
+      - "3000:3000"
+    depends_on:
+      database:
+        condition: service_healthy
+    volumes:
+      - .:/app
