@@ -2,30 +2,25 @@ version: '2.1'
 volumes:
   db:
 services:
-  database:
-    image: mysql:8
+  mongo:
+    image: mongo:5.0.9-focal
+    # volumes:
+    #   - db:/data/db
+    ports:
+      - "27017:27017"
     environment:
-      MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: facturas_jhon
-    expose:
-      - "3306"
-    volumes:
-      - db:/var/lib/mysql
-    healthcheck:
-      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
-      timeout: 20s
-      retries: 10
+      - MONGO_INITDB_DATABASE=invoices
     restart: always
   
-  app:
-    build:
-      context: .
-    image: facturas_jhon:latest
-    ports:
-      - "3000:3000"
-    depends_on:
-      database:
-        condition: service_healthy
-    volumes:
-      - .:/app
-    restart: always
+  # app:
+  #   build:
+  #     context: .
+  #   image: facturas_jhon:latest
+  #   ports:
+  #     - "3000:3000"
+  #   depends_on:
+  #     database:
+  #       condition: service_healthy
+  #   volumes:
+  #     - .:/app
+  #   restart: always

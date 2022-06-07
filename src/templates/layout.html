@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    {% block head %}
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/styles.css')}}">
+    <script src="{{url_for('static', filename='js/tailwind.config.js')}}"></script>
+    <script src="{{url_for('static', filename='js/main.js')}}"></script>
+    <title>{% block title %}{% endblock %}</title>
+    {% endblock %}
+</head>
+<body class="grid min-h-screen grid-rows-layout">
+    <nav class="mt-4 bg-white px-2 sm:px-4 py-2.5 rounded">
+        <div class="container flex flex-wrap justify-between items-center mx-auto">
+          <a href="{{url_for("invoices")}}" class="flex items-center">
+              <span class="text-4xl font-semibold">Pinturas Jhon</span>
+          </a>
+          <div class="w-full md:block md:w-auto">
+            <ul class="flex flex-col mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-xl md:font-medium">
+              {% block navbar %}{% endblock %}
+            </ul>
+          </div>
+        </div>
+      </nav>
+    <main>{% block content %}{% endblock %}</main>
+    <footer class="m-auto text-lg">
+        {% block footer %}
+        <span>&copy; Copyright 2022 by Alejandro Giraldo Herrera.</span>
+        {% endblock %}
+    </footer>
+</body>
+</html>
