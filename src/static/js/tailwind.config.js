@@ -5,7 +5,8 @@ tailwind.config = {
         'layout': 'auto 1fr auto',
       },
       backgroundColor: {
-        'nav-color': '#DFDFDF'
+        'nav-color': '#DFDFDF',
+        'card': '#EEEEEE'
       }
     },
   },

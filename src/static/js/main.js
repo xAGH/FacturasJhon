@@ -1,8 +1,14 @@
 function generateItem() {
-    let parent = document.getElementById('works');
 
+    let parent = document.getElementById('works');
+    let count = 0;
     let parentLastChild = parent.lastElementChild;
-    let count = parentLastChild ? parseInt(parent.lastElementChild.getAttribute('count')) : 0;
+
+    if (parentLastChild && parentLastChild != document.getElementById('noWorks')){
+        count = parseInt(parent.lastElementChild.getAttribute('count'));
+    } else {
+        activateButtons(parent);
+    }
 
     let div = document.createElement('div');
     div.setAttribute("class", "work-item");
@@ -19,6 +25,7 @@ function generateItem() {
     inputConcept.setAttribute("placeholder", "Ej. Pintura");
     inputConcept.setAttribute('required', '');
     inputConcept.setAttribute('name', `concept${count+1}`)
+    inputConcept.setAttribute('maxLength', '20')
 
     let lblPrice = document.createElement('label');
     lblPrice.setAttribute("for", `price${count+1}`);
@@ -56,6 +63,31 @@ function generateItem() {
 
 function removeItem(){
     let parent = document.getElementById('works');
-    let count = parseInt(parent.lastElementChild.getAttribute('count'));
-    parent.removeChild(parent.lastElementChild);
+    if (parent.lastElementChild){
+        parent.removeChild(parent.lastElementChild);
+        if (!parent.lastElementChild){
+            desativateButtons(parent);
+        }
+    }
 }
+
+function activateButtons(parent){
+    let noWorks = document.getElementById('noWorks');
+    document.getElementById('removeItemButton').style.visibility = "visible";
+    document.getElementById('generateInvoiceButton').style.visibility = "visible";
+    parent.removeChild(noWorks);
+}
+
+function desativateButtons(parent){
+    let noWorks = document.createElement('p');
+    noWorks.innerHTML = "Agregue al menos un trabajo";
+    noWorks.setAttribute("id", "noWorks");
+    noWorks.classList.add("text-2xl")
+    noWorks.classList.add("m-10")
+    noWorks.classList.add("text-red-500")
+    parent.appendChild(noWorks);
+
+    let removeItemButton = document.getElementById('removeItemButton').style.visibility = "hidden";
+    let generateInvoiceButton = document.getElementById('generateInvoiceButton').style.visibility = "hidden";
+}
+

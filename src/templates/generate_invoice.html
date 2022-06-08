@@ -8,36 +8,55 @@
     <a href="/" class="block py-2 pr-4 pl-3 text-gray-700 border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:p-0">Consultar Factura</a>
   </li>{% endblock %}
 {% block content %}
-<form action="{{ url_for('invoices') }}" method="post" class="h-full flex flex-col items-center justify-center gap-4">
-  <div class="flex flex-col gap-1">
-    <label for="client_name">Nombre del cliente:</label>
-    <input class="rounded-lg" type="text" id="client_name" name="client_name" placeholder="Ej. Juan" required/>
-  </div>
-  <div class="flex flex-col gap-1">
-    <label for="client_phone">Celular del cliente:</label>
-    <input class="rounded-lg" type="tel" id="client_phone" name="client_phone" placeholder="Ej. 613 45 64 75" required/>
-  </div>
-  <div class="flex flex-col gap-1">
-    <label for="client_document">Documento del cliente:</label>
-    <input class="rounded-lg" type="text" id="client_document" name="client_document" placeholder="Ej. 23444532D" required/>
-  </div>
-  <p class="text-xl">Trabajos:</p>
+<form action="{{ url_for('invoices') }}" method="post" class="h-full grid grid-cols-[1fr_1.5fr] items-center gap-4">
+  
+  <div class="flex flex-col items-center">
+    <p class="text-xl mb-10 underline">Informacion del cliente:</p>
+    <div class="bg-card p-5 rounded-lg">
+      <div class="flex flex-col gap-1">
+        <label for="date">Fecha:</label>
+        <input class="rounded-lg" type="date" name="date" id="date" name="date" value="{{ date }}" max="{{ date }}" required/>
+      </div>
+      <div class="flex flex-col gap-1">
+        <label for="client_name">Nombre del cliente:</label>
+        <input class="rounded-lg" type="text" id="client_name" name="client_name" placeholder="Ej. Juan" required maxlength="40"/>
+      </div>
+      <div class="flex flex-col gap-1">
+        <label for="client_phone">Celular del cliente:</label>
+        <input class="rounded-lg" type="tel" id="client_phone" name="client_phone" placeholder="Ej. 613 45 64 75" required maxlength="20"/>
+      </div>
+      <div class="flex flex-col gap-1">
+        <label for="client_document">Documento del cliente:</label>
+        <input class="rounded-lg" type="text" id="client_document" name="client_document" placeholder="Ej. 23444532D" required maxlength="20"/>
+      </div>
+      <div class="flex flex-col gap-1">
+        <label for="client_address">Direccion del cliente:</label>
+        <input class="rounded-lg" type="text" id="client_address" name="client_address" placeholder="Ej. Calle 23 # 23-55" required maxlength="100"/>
+      </div>
+    </div>
+    </div>
+
+  <div class="flex flex-col gap-2 justify-center items-center">
+  <p class="text-xl mb-10 underline">Trabajos:</p>
 
   <div id="works" class="works-container">
     <div count="1" class="work-item">
       <label for="concept1">Concepto:</label>
-      <input class="rounded-lg" type="text" id="concept1" name="concept1" placeholder="Ej. Pintura" required/>
+      <input class="rounded-lg" type="text" id="concept1" name="concept1" placeholder="Ej. Pintura" required maxlength="20"/>
       <label for="price1">Valor:</label>
       <input class="rounded-lg" type="number" id="price1" name="price1" placeholder="Ej. 1000" required/>
       <label for="quantity1">Cantidad:</label>
       <input class="rounded-lg" type="number" id="quantity1" name="quantity1" placeholder="Ej. 1" required/>
     </div>
   </div>
-
-  <div>
-    <button class="bg-blue-500 p-2 rounded-lg text-white shadow hover:shadow-black" type="button" onclick="generateItem()">Agregar trabajo</button>
-    <button class="bg-red-500 p-2 rounded-lg text-white shadow hover:shadow-black" type="button" onclick="removeItem()">Eliminar trabajo</button>
+  
+  <div class="flex justify-center gap-10">
+    <button id="generateItemButton" class="bg-blue-500 p-2 rounded-lg text-white shadow hover:shadow-black" type="button" onclick="generateItem()">Agregar trabajo</button>
+    <button id="removeItemButton" class="bg-red-500 p-2 rounded-lg text-white shadow hover:shadow-black" type="button" onclick="removeItem()">Eliminar trabajo</button>
   </div>
-  <button type="submit" class="bg-green-400 p-2 rounded-lg shadow hover:shadow-black">Generar Factura</button>
+  <div class="flex justify-center">
+    <button id="generateInvoiceButton" type="submit" class="bg-green-400 p-2 rounded-lg shadow hover:shadow-black">Generar Factura</button>
+  </div>
+  </div>
 </form>
 {% endblock %}
