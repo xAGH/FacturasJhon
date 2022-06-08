@@ -13,7 +13,6 @@ class Application():
     @classmethod
     def __configure(cls):
         cls.app.config["RUN_CONFIG"] = dict(host=APP.HOST, port=APP.PORT, debug=APP.DEBUG)
-        cls.app.config["SECRET_KEY"] = APP.SECRET_KEY
         cls.__register_routes()
 
     @classmethod

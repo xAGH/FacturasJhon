@@ -1,4 +1,3 @@
-import __init__
 from src.app import Application
 
 app = Application.create_app()
