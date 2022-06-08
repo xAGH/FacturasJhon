@@ -2,11 +2,11 @@
 <html lang="es">
 <head>
     {% block head %}
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
-    <link rel="stylesheet" href="{{url_for('static', filename='css/styles.css')}}">
+    <script src="{{ url_for('static', filename='js/tailwind.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/tailwind.plugins.js') }}"></script>
     <script src="{{url_for('static', filename='js/tailwind.config.js')}}"></script>
     <script src="{{url_for('static', filename='js/main.js')}}"></script>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/styles.css')}}">
     <title>{% block title %}{% endblock %}</title>
     {% endblock %}
 </head>
