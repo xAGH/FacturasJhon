@@ -1,5 +1,5 @@
 from datetime import datetime
-DATETIME_FORMAT = '%Y-%m-%d %H:%M:%S'
+from src.config import APP
 
 def get_datetime():
-    return datetime.now().strftime(DATETIME_FORMAT)
+    return datetime.now().strftime(APP.DATE_FORMAT)

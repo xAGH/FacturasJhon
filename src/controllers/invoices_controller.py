@@ -1,7 +1,8 @@
 from flask.views import MethodView
-from flask import jsonify, make_response, redirect, request, render_template, session, url_for
+from flask import jsonify, make_response, redirect, request, render_template, url_for
 from src.services.invoice_service import InvoiceService
 from src.validators.invoice_validator import InvoiceValidator
+from src.utils.functions import get_datetime
 
 class InvoicesController(MethodView):
     
@@ -16,12 +17,14 @@ class InvoicesController(MethodView):
         while True:
             if not content.get(f"concept{work_count}"):
                 break;
-            works.append({
+            try:
+                works.append({
                 'concept': content.get(f"concept{work_count}"),
-                'price': content.get(f"price{work_count}"),
-                'quantity': content.get(f"quantity{work_count}"),
-                'total': ((float(content.get(f"price{work_count}")) * (int(content.get(f"quantity{work_count}")))))
+                'price': float(content.get(f"price{work_count}")),
+                'quantity': int(content.get(f"quantity{work_count}"))
             })
+            except:
+                return make_response(jsonify({'error': 'Invalid data'}), 400)
             content.pop(f"concept{work_count}")
             content.pop(f"price{work_count}")
             content.pop(f"quantity{work_count}")
@@ -30,7 +33,7 @@ class InvoicesController(MethodView):
         errors = self.validator.validate(content)
         if errors:
             return redirect(url_for("invoices"))
-        return "Ok"
+        return self.service.insert(content)
 
     def get(self):
-        return render_template("generate_invoice.html") 
+        return render_template("generate_invoice.html", date=get_datetime()) 
