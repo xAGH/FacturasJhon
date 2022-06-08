@@ -7,7 +7,7 @@ class DB():
 
 class APP():
     HOST = getenv("APP_HOST", "localhost")
-    PORT = int(getenv("APP_PORT", "3000"))
+    PORT = int(getenv("APP_PORT", 3000))
     DEBUG = bool(getenv("APP_DEBUG", True))
     CORS = getenv("CORS_ORIGIN", "localhost:4200")
     DATE_FORMAT = '%Y-%m-%d'

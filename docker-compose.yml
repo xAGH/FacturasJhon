@@ -3,13 +3,11 @@ volumes:
   db:
 services:
   mongo:
-    image: mongo:5.0.9-focal
+    image: xagh/mongo_facturas_jhon
     # volumes:
     #   - db:/data/db
     ports:
       - "27017:27017"
-    environment:
-      - MONGO_INITDB_DATABASE=invoices
     restart: always
   
   # app:
