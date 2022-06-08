@@ -1,5 +1,5 @@
 from src.config import APP
-from flask import Flask, make_response, jsonify, render_template
+from flask import Flask
 from src.routes import routes
 
 class Application():
