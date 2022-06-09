@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../static/js/tailwind.js"></script>
+    <script src="{{url_for('static', filename='js/tailwind.config.js')}}"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="content" class="h-screen w-screen grid grid-rows-4 gap-1 p-10">
+        <div class="flex justify-between">
+            <div class="flex items-center">
+                <img class="h-full pr-8" src="{{url_for('static', filename='assets/Painter.png')}}" alt="">
+                <div class="flex flex-col">
+                    <p class="text-3xl">Pinturas Jhon</p>
+                    <p class="text-black/[.60] text-sm">Jhon Eider Giraldo Tobón</p>
+                    <p class="text-black/[.60] text-sm">NIF/CIF 04762353L</p>
+                    <p class="text-black/[.60] text-sm">Calle la florida 11 1A</p>
+                    <p class="text-black/[.60] text-sm">48902 Barakaldo</p>
+                    <p class="text-black/[.60] text-sm">+34 674535140</p>
+                    <p class="text-black/[.60] text-sm">michaelgiraldo0509@hotmail.com</p>
+                </div>
+            </div>
+        <p class="text-3xl text-right self-center">{{type}}</p>
+        </div>
+        <div class="flex justify-between">
+            <div class="flex flex-col justify-center">
+                <p class="text-xl">Factura a:</p>
+                <p class="text-black/[.60]">{{client_name}}</p>
+                <p class="text-black/[.60]">NIF/CIF {{client_document}}</p>
+                <p class="text-black/[.60]">{{client_address}}</p>
+                <p class="text-black/[.60]">{{client_phone}}</p>
+            </div>
+            <div class="flex flex-col justify-center gap-4">
+                <div class="flex justify-between gap-20">
+                    <p class="">Número de factura:</p><p class="text-black/[.60]">{{invoice_no}}</p>
+                </div>
+                <div class="flex justify-between gap-20">
+                    <p class="">Fecha de generacion:</p><p class="text-black/[.60]">{{date}}</p>
+                </div>
+                <div class="flex justify-between gap-20">
+                    <p class="">Vencimiento:</p><p class="text-black/[.60]">Vence al recibir</p>
+                </div>
+            </div>
+        </div>
+        <div class="row-span-2">
+            <table class="w-full text-sm text-left text-gray-500 shadow-md">
+                <thead class="text-gray-700 uppercase bg-gray-50 ">
+                    <tr class="text-base text-right">
+                        <th scope="col" class="px-6 py-3 text-left">Concepto</th>
+                        <th scope="col" class="px-6 py-3">Precio</th>
+                        <th scope="col" class="px-6 py-3">Cantidad</th>
+                        <th scope="col" class="px-6 py-3">Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for work in works%}
+                        <tr class="border-b odd:bg-white even:bg-gray-100 text-right">
+                            <th scope="row" class="px-6 py-4 text-left text-gray-900">{{work["concept"]}}</th>
+                            <td class="px-6 py-4 ">€ {{work["price"]}}</td>
+                            <td class="px-6 py-4">{{work["quantity"]}}</td>
+                            <td class="px-6 py-4">€ {{work["total"]}}</td>
+                        </tr>
+                    {% endfor %}
+                    <tr class="border-b odd:bg-white even:bg-gray-100 text-right">
+                        <th></th>
+                        <td></td>
+                        <th class="px-6 py-4">Subtotal</th>
+                        <td class="px-6 py-4">€ {{raw_payment}}</td>
+                    </tr>
+                    <tr class="border-b odd:bg-white even:bg-gray-100 text-right">
+                        <td></td>
+                        <td></td>
+                        <th class="px-6 py-4">IVA (21%)</th>
+                        <td class="px-6 py-4">€ {{iva}}</td>
+                    </tr>
+                    <tr class="border-b odd:bg-white even:bg-gray-100 text-right">
+                        <td></td>
+                        <td></td>
+                        <th class="px-6 py-4 text-gray-900 text-lg">Total</td>
+                        <td class="px-6 py-4 text-gray-900 text-lg">€ {{total}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

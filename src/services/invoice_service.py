@@ -1,5 +1,7 @@
 from datetime import datetime
 from flask import jsonify, make_response, render_template
+from flask_weasyprint import HTML, render_pdf
+import pdfkit
 from src.utils.instances import db
 from src.config import APP
 
@@ -34,4 +36,5 @@ class InvoiceService:
         return self.generate_pdf(db.invoices.find_one({"_id": db.invoices.insert_one(data).inserted_id}))
 
     def generate_pdf(self, data):
-        return "ok"
+        return render_template('invoice_template.html', type='Factura',**data)
+        
