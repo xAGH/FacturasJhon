@@ -13,6 +13,8 @@ class Application():
     @classmethod
     def __configure(cls):
         cls.app.config["RUN_CONFIG"] = dict(host=APP.HOST, port=APP.PORT, debug=APP.DEBUG)
+        cls.app.template_folder = 'views/templates'
+        cls.app.static_folder = 'views/static'
         cls.__register_routes()
 
     @classmethod

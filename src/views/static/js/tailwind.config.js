@@ -7,6 +7,9 @@ tailwind.config = {
       backgroundColor: {
         'nav-color': '#DFDFDF',
         'card': '#EEEEEE'
+      },
+      colors: {
+        'secondary': '#898989'
       }
     },
   },

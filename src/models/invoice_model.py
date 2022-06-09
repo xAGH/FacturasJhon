@@ -11,8 +11,11 @@ def invoices(instance: MongoClient):
         '$jsonSchema': {
             'bsonType': 'object',
             'additionalProperties': True,
-            'required': ["client_name", "client_phone", "client_document", "client_address", "raw_payment","iva", "total", "date", "works"],
+            'required': ["invoice_no", "client_name", "client_phone", "client_document", "client_address", "raw_payment","iva", "total", "date", "works"],
             'properties': {
+                'invoice_no': {
+                    'bsonType': 'string'
+                },
                 'client_name': {
                     'bsonType': 'string',
                 },
