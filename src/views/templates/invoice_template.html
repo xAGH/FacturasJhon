@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="../static/js/tailwind.js"></script>
     <script src="{{url_for('static', filename='js/tailwind.config.js')}}"></script>
-    <title>Document</title>
+    <title>{{invoice_no}}</title>
 </head>
 <body>
     <div id="content" class="h-screen w-screen grid grid-rows-4 gap-1 p-10">
@@ -23,7 +23,7 @@
                     <p class="text-black/[.60] text-sm">michaelgiraldo0509@hotmail.com</p>
                 </div>
             </div>
-        <p class="text-3xl text-right self-center">{{type}}</p>
+            <p class="text-3xl text-right self-center">{{type}}</p>
         </div>
         <div class="flex justify-between">
             <div class="flex flex-col justify-center">
@@ -57,12 +57,12 @@
                 </thead>
                 <tbody>
                     {% for work in works%}
-                        <tr class="border-b odd:bg-white even:bg-gray-100 text-right">
-                            <th scope="row" class="px-6 py-4 text-left text-gray-900">{{work["concept"]}}</th>
-                            <td class="px-6 py-4 ">€ {{work["price"]}}</td>
-                            <td class="px-6 py-4">{{work["quantity"]}}</td>
-                            <td class="px-6 py-4">€ {{work["total"]}}</td>
-                        </tr>
+                    <tr class="border-b odd:bg-white even:bg-gray-100 text-right">
+                        <th scope="row" class="px-6 py-4 text-left text-gray-900">{{work["concept"]}}</th>
+                        <td class="px-6 py-4 ">€ {{work["price"]}}</td>
+                        <td class="px-6 py-4">{{work["quantity"]}}</td>
+                        <td class="px-6 py-4">€ {{work["total"]}}</td>
+                    </tr>
                     {% endfor %}
                     <tr class="border-b odd:bg-white even:bg-gray-100 text-right">
                         <th></th>
@@ -80,11 +80,13 @@
                         <td></td>
                         <td></td>
                         <th class="px-6 py-4 text-gray-900 text-lg">Total</td>
-                        <td class="px-6 py-4 text-gray-900 text-lg">€ {{total}}</td>
-                    </tr>
-                </tbody>
+                            <td class="px-6 py-4 text-gray-900 text-lg">€ {{total}}</td>
+                        </tr>
+                    </tbody>
             </table>
         </div>
     </div>
+    <script defer src="{{url_for('static', filename='js/jsPDF.js')}}"></script>
+    <button onclick="generateInvoice()">Buttoncito</button>
 </body>
 </html>

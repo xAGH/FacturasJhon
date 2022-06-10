@@ -1,7 +1,5 @@
 from datetime import datetime
 from flask import jsonify, make_response, render_template
-from flask_weasyprint import HTML, render_pdf
-import pdfkit
 from src.utils.instances import db
 from src.config import APP
 
