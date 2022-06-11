@@ -1,5 +1,4 @@
-from datetime import datetime
-from flask import jsonify, make_response, redirect, render_template, url_for
+from flask import redirect, url_for
 from src.utils.instances import db
 from src.config import APP
 from src.utils.functions import format_date
@@ -16,10 +15,10 @@ class InvoiceService:
         for work in range(len(data["works"])):
             data["works"][work]["total"] = data["works"][work]["price"] * data["works"][work]["quantity"]
         # Generating raw_payment and IVA
-        data["raw_payment"] = sum(work["total"] for work in data["works"])
-        data["iva"] = data["raw_payment"] * IVA
+        data["raw_payment"] = round(sum(work["total"] for work in data["works"]), 2)
+        data["iva"] = round(data["raw_payment"] * IVA, 2)
         # Generating total
-        data["total"] = data["raw_payment"] + data["iva"]
+        data["total"] = round(data["raw_payment"] + data["iva"], 2)
 
         # Getting current invoice number
         current_invoice_number = db.counter.find_one(sort=[("invoice_number", -1)])["invoice_number"]
@@ -28,12 +27,12 @@ class InvoiceService:
         
         # Formatting invoice number
         current_invoice_number += 1
-        current_invoice_number = "FAC{0}".format(str(current_invoice_number).zfill(4))
+        current_invoice_number = "FAC-{0}".format(str(current_invoice_number).zfill(4))
         # Setting current invoice number
         data["invoice_no"] = current_invoice_number
-        
+
         # Inserting data into database and returning pdf
-        inserted = db.invoices.insert_one(data)
+        db.invoices.insert_one(data)
         data.pop("_id")
         data['doc_type'] = "Factura"
         return self.generate_pdf(data)
@@ -43,3 +42,7 @@ class InvoiceService:
         data['genPDF'] = True
         data = str(encode(data, APP.SECRET, algorithm='HS256'))
         return redirect(url_for('invoices', data=data))
+
+
+    def query(self):
+        pass

@@ -1,11 +1,80 @@
 {% extends "layout.html" %}
 {% block title %}Generar Factura{% endblock %}
-{% block navbar %}
-<li>
-    <a href="/" class="block py-2 pr-4 pl-3 text-gray-700 border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:p-0">Generar Factura</a>
-  </li>
-  <li>
-    <a href="/" class="block py-2 pr-4 pl-3 bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white">Consultar Factura</a>
-  </li>{% endblock %}
+{% block head %}
+    {{ super() }}
+    <script src="{{ url_for('static', filename='js/queryInvoice.js') }}"></script>
+{% endblock %}
 {% block content %}
+<div class="w-full h-full flex flex-col items-center justify-between gap-10 p-5">
+   <div>
+        <label class="text-xl" for="filter">Filtrar por:</label>
+        <select onchange="createElementFromSelect(this.value)" class="ml-5" name="filter" id="filter">
+            <option value="invoice_no">Factura</option>
+            <option value="client_name">Nombre</option>
+            <option value="client_phone">Celular</option>
+            <option value="client_document">Documento</option>
+            <option value="client_address">Dirección</option>
+            <option value="date">Fecha</option>
+        </select>
+        <input id="invoice_no" class="inline-block uppercase input" type="text" required placeholder="EJ. FAC-0001" />
+        <input id="client_name" class="hidden input" type="text" required placeholder="Ej. Juan" />    
+        <input id="client_phone" class="hidden input" type="tel" required placeholder="Ej. 613 45 64 75" />
+        <input id="client_document" class="hidden input" type="text" required placeholder="Ej. 23444532D" />
+        <input id="client_address" class="hidden input" type="text" required placeholder="Ej. Calle 23 # 23-55" />
+        <input id="date" class="hidden input" type="date" required max="{{actual_date}}"/>
+        <button class="text-2xl ml-5" onclick="getInvoiceData()">
+            🔎
+        </button>
+    </div>
+
+    <div class="h-full w-full flex justify-center">
+        <div class="flex flex-col gap-2 justify-center text-lg">
+            <div class="flex justify-between">
+                <label class="text-xl" for="invoice_no">Factura:</label>
+                <input type="text" value="{{invoice_no}}" class="ml-10 w-1/2"/>
+            </div>
+            <div class="flex justify-between">
+                <label class="text-xl" for="client_name">Nombre del cliente:</label>
+                <input type="text" value="{{client_name}}" class="ml-10 w-1/2"/>
+            </div>
+            <div class="flex justify-between">
+                <label class="text-xl" for="client_phone">Celular del cliente:</label>
+                <input type="text" value="{{client_phone}}" class="ml-10 w-1/2"/>
+            </div>
+            <div class="flex justify-between">
+                <label class="text-xl" for="client_document">Documento del cliente:</label>
+                <input type="text" value="{{client_document}}" class="ml-10 w-1/2"/>
+            </div>
+            <div class="flex justify-between">
+                <label class="text-xl" for="client_address">Dirección del cliente:</label>
+                <input type="text" value="{{client_address}}" class="ml-10 w-1/2"/>
+            </div>
+            <div class="flex justify-between">
+                <label class="text-xl" for="raw_payment">Pago base:</label>
+                <input type="number" value="{{raw_payment}}" class="ml-10 w-1/2"/>
+            </div>
+            <div class="flex justify-between">
+                <label class="text-xl" for="iva">IVA(21%):</label>
+                <input type="number" value="{{iva}}" class="ml-10 w-1/2"/>
+            </div>
+            <div class="flex justify-between">
+                <label class="text-xl" for="total">Pago final:</label>
+                <input type="number" value="{{total}}" class="ml-10 w-1/2"/>
+            </div>
+            <div class="flex justify-between">
+                <label class="text-xl" for="date">Fecha:</label>
+                <input type="date" value="{{date}}" class="ml-10 w-1/2"/>
+            </div>
+            <div class="flex justify-between">
+                <label class="text-xl" for="works">Trabajos</label>
+                <input type="text" value="{{works}}" class="ml-10 w-1/2"/>
+            </div>
+            <div class="flex justify-evenly mt-10">
+                <button class="bg-blue-500 p-2 rounded-lg text-white shadow hover:shadow-black">Descargar Factura</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
 {% endblock %}

@@ -1,5 +1,5 @@
 from flask.views import MethodView
-from flask import jsonify, make_response, redirect, request, render_template, url_for
+from flask import flash, jsonify, make_response, redirect, request, render_template, url_for
 from src.config import APP
 from src.services.invoice_service import InvoiceService
 from src.validators.invoice_validator import InvoiceValidator
@@ -34,6 +34,7 @@ class InvoicesController(MethodView):
         content["works"] = works
         errors = self.validator.validate(content)
         if errors:
+            flash("Error en alguno de los campos", 'error')
             return redirect(url_for("invoices"))
         return self.service.insert(content)
 
@@ -41,5 +42,15 @@ class InvoicesController(MethodView):
         data = {}
         if request.args.get('data'):
             data = decode(request.args.get('data'), APP.SECRET, algorithms='HS256')
-        print(type(data.get('genPDF')))
         return render_template("generate_invoice.html", actual_date=get_datetime(), **data)
+
+class InvoicesQueryController(MethodView):
+
+    def __init__(self):
+        self.service = InvoiceService()
+
+    def get(self):
+        return render_template('query_invoice.html', actual_date=get_datetime())
+
+    def post(self):
+        pass
