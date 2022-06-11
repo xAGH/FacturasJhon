@@ -2,6 +2,7 @@ from datetime import datetime
 from flask import jsonify, make_response, render_template
 from src.utils.instances import db
 from src.config import APP
+from src.utils.functions import format_date
 
 class InvoiceService:
     def __init__(self):
@@ -34,5 +35,5 @@ class InvoiceService:
         return self.generate_pdf(db.invoices.find_one({"_id": db.invoices.insert_one(data).inserted_id}))
 
     def generate_pdf(self, data):
-        return render_template('invoice_template.html', type='Factura',**data)
-        
+        data['date'] = format_date(data['date'])
+        return render_template('invoice_template.html', type='Factura', **data)

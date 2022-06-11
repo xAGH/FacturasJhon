@@ -36,4 +36,4 @@ class InvoicesController(MethodView):
         return self.service.insert(content)
 
     def get(self):
-        return render_template("generate_invoice.html", date=get_datetime()) 
+        return render_template("generate_invoice.html", date=get_datetime())

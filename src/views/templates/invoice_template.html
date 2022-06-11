@@ -6,10 +6,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="../static/js/tailwind.js"></script>
     <script src="{{url_for('static', filename='js/tailwind.config.js')}}"></script>
+    <script src="{{url_for('static', filename='js/html2pdf.js')}}"></script>
+    <script>
+        function onLoad(){
+            const element = document.getElementById('content');
+            const options = {
+                filename: '{{ invoice_no }}',
+                html2canvas: { scale: 2 },
+                margin: 1
+            };
+            html2pdf().set(options).from(element).save();
+        }
+        
+        window.onload = onLoad;
+
+    </script>
     <title>{{invoice_no}}</title>
 </head>
 <body>
-    <div id="content" class="h-screen w-screen grid grid-rows-4 gap-1 p-10">
+    <div id="content" class="h-screen w-full grid grid-rows-4 gap-1 px-10">
         <div class="flex justify-between">
             <div class="flex items-center">
                 <img class="h-full pr-8" src="{{url_for('static', filename='assets/Painter.png')}}" alt="">
@@ -33,7 +48,7 @@
                 <p class="text-black/[.60]">{{client_address}}</p>
                 <p class="text-black/[.60]">{{client_phone}}</p>
             </div>
-            <div class="flex flex-col justify-center gap-4">
+            <div class="flex flex-col justify-center gap-2">
                 <div class="flex justify-between gap-20">
                     <p class="">Número de factura:</p><p class="text-black/[.60]">{{invoice_no}}</p>
                 </div>
@@ -86,7 +101,5 @@
             </table>
         </div>
     </div>
-    <script defer src="{{url_for('static', filename='js/jsPDF.js')}}"></script>
-    <button onclick="generateInvoice()">Buttoncito</button>
 </body>
 </html>
