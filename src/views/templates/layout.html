@@ -7,7 +7,19 @@
     <script src="{{url_for('static', filename='js/tailwind.config.js')}}"></script>
     <script src="{{url_for('static', filename='js/main.js')}}"></script>
     <link rel="stylesheet" href="{{url_for('static', filename='css/styles.css')}}">
+    <link rel="shortcut icon" href="{{url_for('static', filename='assets/icon.ico')}}" type="image/x-icon">
     <title>{% block title %}{% endblock %}</title>
+    <script>
+      window.onload = () => {
+        const elements = document.getElementsByClassName('nav_link');
+        for (let i = 0; i < elements.length; i++) {
+          let el = "/" + elements[i].href.split('/')[3];
+          if (el == window.location.pathname) {
+            elements[i].classList.add('md:text-blue-700');
+          }
+        }
+      }
+    </script>
     {% endblock %}
 </head>
 <body class="grid min-h-screen grid-rows-layout">
@@ -18,7 +30,12 @@
           </a>
           <div class="w-full md:block md:w-auto">
             <ul class="flex flex-col mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-xl md:font-medium">
-              {% block navbar %}{% endblock %}
+              <li>
+                <a class="block py-2 pr-4 pl-3 rounded md:bg-transparent md:p-0 nav_link" href="{{url_for('invoices')}}">Generar Factura</a>
+              </li>
+              <li>
+                <a class="block py-2 pr-4 pl-3 rounded md:bg-transparent md:p-0 nav_link" href="/">Consultar Factura</a>
+            </li>
             </ul>
           </div>
         </div>

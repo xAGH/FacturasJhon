@@ -95,12 +95,14 @@ function desativateButtons(parent){
 }
 
 function worksCounter(){
-    let works = document.getElementById("works");
-    let counter = 0
-    if (works.lastChild != document.getElementById('noWorks')) {
-        counter = works.childElementCount
+    try{
+        let works = document.getElementById("works");
+        let counter = 0
+        if (works.lastChild != document.getElementById('noWorks')) {
+            counter = works.childElementCount
+        }
+        let worksLbl = document.getElementById("worksLbl");
+        worksLbl.innerText = `Trabajos (${counter}):`;
     }
-    let worksLbl = document.getElementById("worksLbl");
-    worksLbl.innerText = `Trabajos (${counter}):`;
-
+    catch {}
 }

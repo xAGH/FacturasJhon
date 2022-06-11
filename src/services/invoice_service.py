@@ -1,8 +1,9 @@
 from datetime import datetime
-from flask import jsonify, make_response, render_template
+from flask import jsonify, make_response, redirect, render_template, url_for
 from src.utils.instances import db
 from src.config import APP
 from src.utils.functions import format_date
+from jwt import encode
 
 class InvoiceService:
     def __init__(self):
@@ -32,8 +33,13 @@ class InvoiceService:
         data["invoice_no"] = current_invoice_number
         
         # Inserting data into database and returning pdf
-        return self.generate_pdf(db.invoices.find_one({"_id": db.invoices.insert_one(data).inserted_id}))
+        inserted = db.invoices.insert_one(data)
+        data.pop("_id")
+        data['doc_type'] = "Factura"
+        return self.generate_pdf(data)
 
     def generate_pdf(self, data):
         data['date'] = format_date(data['date'])
-        return render_template('invoice_template.html', type='Factura', **data)
+        data['genPDF'] = True
+        data = str(encode(data, APP.SECRET, algorithm='HS256'))
+        return redirect(url_for('invoices', data=data))

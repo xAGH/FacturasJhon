@@ -1,8 +1,10 @@
 from flask.views import MethodView
 from flask import jsonify, make_response, redirect, request, render_template, url_for
+from src.config import APP
 from src.services.invoice_service import InvoiceService
 from src.validators.invoice_validator import InvoiceValidator
 from src.utils.functions import get_datetime
+from jwt import decode
 
 class InvoicesController(MethodView):
     
@@ -36,4 +38,8 @@ class InvoicesController(MethodView):
         return self.service.insert(content)
 
     def get(self):
-        return render_template("generate_invoice.html", date=get_datetime())
+        data = {}
+        if request.args.get('data'):
+            data = decode(request.args.get('data'), APP.SECRET, algorithms='HS256')
+        print(type(data.get('genPDF')))
+        return render_template("generate_invoice.html", actual_date=get_datetime(), **data)

@@ -8,3 +8,4 @@ class APP():
     PORT = 3000
     DEBUG = True
     DATE_FORMAT = '%Y-%m-%d'
+    SECRET = 'secret'
