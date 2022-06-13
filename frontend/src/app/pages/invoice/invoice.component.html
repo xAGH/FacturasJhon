@@ -1,0 +1,32 @@
+<form>
+
+    <section class="client">
+      <p class="section-name">Informacion del cliente:</p>
+        <app-date-picker class="mb-5"></app-date-picker>
+        <app-input type="text" name="client_name" label="Nombre"></app-input>
+        <app-input type="tel" name="client_phone" label="Celular"></app-input>
+        <app-input type="tel" name="client_document" label="Documento"></app-input>
+        <app-input type="tel" name="client_address" label="Dirección"></app-input>
+    </section>
+
+  <section class="works">
+    <p class="section-name">Trabajos: {{work_counter}}</p>
+    <div class="works-container">
+        <app-work-item work_number=1></app-work-item>
+        <div hidden #workContainer></div>
+      </div>
+  </section>
+
+  <div class="col-start-2 col-end-2 flex justify-center gap-16">
+    <button type="submit" class="button bg-green-500 hover:bg-green-600">Generar Factura</button>
+    <button type="button" class="button bg-blue-600 hover:bg-blue-700" (click)="generateItem()">Agregar trabajo</button>
+    <button 
+      disabled="{{hiddenRemoveBtn$ | async}}" 
+      [ngClass]="{
+        'bg-gray-400': (hiddenRemoveBtn$ | async), 
+        'bg-red-600 hover:bg-red-700': !(hiddenRemoveBtn$ | async)
+      }"
+      type="button"
+      class="button" (click)="removeItem()">Eliminar trabajo</button>
+  </div>
+</form>

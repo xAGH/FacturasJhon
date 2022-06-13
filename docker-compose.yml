@@ -3,22 +3,38 @@ volumes:
   db:
 services:
   mongo:
-    image: xagh/mongo_facturas_jhon
+    image: mvertes/alpine-mongo
     # volumes:
     #   - db:/data/db
     ports:
       - "27017:27017"
     restart: always
+    container_name: mongo
   
-  # app:
-  #   build:
-  #     context: .
-  #   image: facturas_jhon:latest
+  # back:
+  #   build: ./backend
+  #   image: back_facturas_jhon:latest
   #   ports:
   #     - "3000:3000"
   #   depends_on:
-  #     database:
-  #       condition: service_healthy
+  #     - mongo 
   #   volumes:
-  #     - .:/app
+  #     - ./backend:/app
+  #   environment:
+  #     - APP_MONGO_HOST=mongo
+  #     - PRODUCTION_ENV=27017
   #   restart: always
+  #   container_name: back
+
+  # front:
+  #   build: ./frontend
+  #   image: front_facturas_jhon:latest
+  #   ports:
+  #     - "4200:4200"
+  #   depends_on:
+  #     - back
+  #   volumes:
+  #     - /front/node_modules
+  #     - ./frontend:/front
+  #   restart: always
+  #   container_name: front

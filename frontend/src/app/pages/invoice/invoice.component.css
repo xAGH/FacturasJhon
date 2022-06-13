@@ -1,0 +1,29 @@
+form{
+  @apply grid grid-cols-[1fr_1.5fr] grid-rows-[90%_auto] h-[75vh] mt-10 gap-4 p-10;
+}
+
+section{
+  @apply flex flex-col justify-center bg-card rounded-lg px-10 py-20 w-full m-auto ;
+}
+
+.client{
+@apply gap-5;
+}
+
+.works{
+  @apply items-center h-full;
+}
+
+.works-container{
+  @apply w-[90%] overflow-auto py-8 px-4 border-4 rounded-md flex flex-wrap items-center justify-evenly gap-5;
+}
+
+.section-name{
+  @apply text-xl text-center mb-10 underline;
+}
+
+.button{
+  @apply text-white focus:ring-4 
+           focus:outline-none focus:ring-blue-300 font-medium 
+           rounded-lg w-full sm:w-auto px-5 py-2.5 text-center
+}
