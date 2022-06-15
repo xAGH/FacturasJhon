@@ -1,32 +1,82 @@
-<form>
+<form [formGroup]="invoiceForm" (ngSubmit)="onSubmit()">
 
-    <section class="client">
-      <p class="section-name">Informacion del cliente:</p>
-        <app-date-picker class="mb-5"></app-date-picker>
-        <app-input type="text" name="client_name" label="Nombre"></app-input>
-        <app-input type="tel" name="client_phone" label="Celular"></app-input>
-        <app-input type="tel" name="client_document" label="Documento"></app-input>
-        <app-input type="tel" name="client_address" label="Dirección"></app-input>
-    </section>
+  <section class="client">
+    <p class="section-name">Informacion del cliente:</p>
+      <app-date-picker class="mb-5" controlName="date" (inputChange)="onFormValue($event)"></app-date-picker>
+      <app-input 
+        type="text" 
+        name="client_name" 
+        label="Nombre" 
+        controlName="client_name" 
+        [controlValue]="formControls.client_name[0]"
+        [controlValidators]="formControls.client_name[1]"
+        (inputChange)="onFormValue($event)"></app-input>
+      <app-input 
+        type="tel" 
+        name="client_phone" 
+        label="Celular" 
+        controlName="client_phone" 
+        [controlValue]="formControls.client_phone[0]"
+        [controlValidators]="formControls.client_phone[1]"
+        (inputChange)="onFormValue($event)"></app-input>
+      <app-input 
+        type="tel" 
+        name="client_document" 
+        label="Documento" 
+        controlName="client_document" 
+        [controlValue]="formControls.client_document[0]"
+        [controlValidators]="formControls.client_document[1]"
+        (inputChange)="onFormValue($event)"></app-input>
+      <app-input 
+        type="tel" 
+        name="client_address" 
+        label="Dirección" 
+        controlName="client_address" 
+        [controlValue]="formControls.client_address[0]"
+        [controlValidators]="formControls.client_address[1]"
+        (inputChange)="onFormValue($event)"></app-input>
+  </section>
 
   <section class="works">
-    <p class="section-name">Trabajos: {{work_counter}}</p>
-    <div class="works-container">
-        <app-work-item work_number=1></app-work-item>
-        <div hidden #workContainer></div>
+    <p class="section-name">Trabajos</p>
+    <div class="works-container" formArrayName="works">
+      <div *ngFor="let work of worksArray.controls; index as i" class="flex flex-col bg-gray-200 rounded-md shadow-md px-5 py-4">
+          <p class="pb-4">Trabajo #{{i+1}}</p>
+          <app-input type="text"
+          name="concept"
+          controlName="concept"
+          label="Concepto"
+          [controlValue]="formWorkControls.concept[0]"
+          [controlValidators]="formWorkControls.concept[1]"
+          (inputChange)="onWorkFormValue($event, i)"></app-input>
+          <app-input type="number"
+          name="price"
+          controlName="price"
+          label="Valor"
+          [controlValue]="formWorkControls.price[0]"
+          [controlValidators]="formWorkControls.price[1]"
+          (inputChange)="onWorkFormValue($event, i)"></app-input>
+          <app-input type="number"
+          name="quantity"
+          controlName="quantity"
+          label="Cantidad"
+          [controlValue]="formWorkControls.quantity[0]"
+          [controlValidators]="formWorkControls.quantity[1]"
+          (inputChange)="onWorkFormValue($event, i)"></app-input>
+          <button 
+            [ngClass]="{
+              'invisible': i == 0, 
+              'bg-red-600 hover:bg-red-700': !(i==0)
+            }"
+            type="button"
+            class="button px-2 py-1 text-xs mx-auto" (click)="removeWork(i)">Eliminar trabajo</button>
+        </div>
       </div>
   </section>
 
   <div class="col-start-2 col-end-2 flex justify-center gap-16">
-    <button type="submit" class="button bg-green-500 hover:bg-green-600">Generar Factura</button>
-    <button type="button" class="button bg-blue-600 hover:bg-blue-700" (click)="generateItem()">Agregar trabajo</button>
-    <button 
-      disabled="{{hiddenRemoveBtn$ | async}}" 
-      [ngClass]="{
-        'bg-gray-400': (hiddenRemoveBtn$ | async), 
-        'bg-red-600 hover:bg-red-700': !(hiddenRemoveBtn$ | async)
-      }"
-      type="button"
-      class="button" (click)="removeItem()">Eliminar trabajo</button>
+    <button type="submit" class="button px-5 py-2.5 bg-green-500 hover:bg-green-600">Generar Factura</button>
+    <button type="button" class="button px-5 py-2.5 bg-blue-600 hover:bg-blue-700" (click)="pushWork(createWork())">Agregar trabajo</button>
+  
   </div>
 </form>

@@ -1,4 +1,13 @@
-<div class="relative z-0 w-full mb-6;">
-  <input [type]="type" [name]="name" class="input peer" placeholder=" " required />
-  <label [for]="name" class="label">{{ label }}</label>
+<div class="relative z-0 w-full mb-6" [formGroup]="form">
+  <input 
+    [type]="type" 
+    [formControlName]="controlName" 
+    [name]="name"
+    (change)="emitFormValue()"
+    class="input peer" 
+    placeholder=" " 
+    [ngClass]="{'invalid':inputIsInValid(controlName)}"
+    required />
+    
+  <label [ngClass]="{'invalid':inputIsInValid(controlName)}" [for]="name" class="label">{{ label }}</label>
 </div>

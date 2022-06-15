@@ -1,4 +1,5 @@
-import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Observable, of } from 'rxjs';
 
 @Component({
@@ -6,6 +7,8 @@ import { Observable, of } from 'rxjs';
   templateUrl: './date-picker.component.html',
   styleUrls: ['./date-picker.component.css']
 })
+
+
 export class DatePickerComponent implements OnInit {
   MONTH_NAMES = [
     'Enero',
@@ -21,6 +24,11 @@ export class DatePickerComponent implements OnInit {
     'Noviembre',
     'Diciembre'
   ];
+
+  @Input() controlName!: string;
+  form!: FormGroup;
+  @Output() inputChange = new EventEmitter<any>();
+  
   DAYS = ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'];
   days = ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'];
   showDatepicker$: Observable<boolean> = of(false);
@@ -31,16 +39,25 @@ export class DatePickerComponent implements OnInit {
   blankdays = [] as number[];
   pattern = /\d{4}-\d{2}-\d{2}/;
 
-  constructor(private renderer: Renderer2) {}
+  constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {
+    this.form = this.fb.group({
+      [this.controlName]: ['', []]
+    });
     this.initDate();
     this.getNoOfDays();
+    // this.emitFormValue()
   }
 
   formatDate(date: Date): string{
     let dateSplitted = date.toISOString().match(this.pattern)![0].split('-');
-    return this.datepickerValue = dateSplitted[2] + '-' + dateSplitted[1] + '-' + dateSplitted[0];
+    return dateSplitted[2] + '-' + dateSplitted[1] + '-' + dateSplitted[0];
+  }
+
+  setDatePickerValue(){
+    this.form.controls[this.controlName].setValue(this.datepickerValue);
+    this.inputChange.emit(this.form.value);
   }
 
   initDate() {
@@ -48,6 +65,7 @@ export class DatePickerComponent implements OnInit {
     this.month = today.getMonth();
     this.year = today.getFullYear();
     this.datepickerValue = this.formatDate(new Date(this.year, this.month, today.getDate()));
+    this.setDatePickerValue()
   }
 
   getDateValue(date: any) {
@@ -55,6 +73,7 @@ export class DatePickerComponent implements OnInit {
     let selectedDate = new Date(this.year, this.month, date);
     
     this.datepickerValue = this.formatDate(selectedDate);
+    this.setDatePickerValue()
     this.showDatepicker$ = of(false);
   }
 
@@ -93,4 +112,5 @@ export class DatePickerComponent implements OnInit {
       this.showDatepicker$.subscribe({next: (value) => this.showDatepicker$ = of(!value)});
     }
   }
+
 }

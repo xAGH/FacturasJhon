@@ -10,7 +10,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { InvoiceComponent, BudgetComponent, QuerysComponent } from './pages';
 import { InputComponent } from './components/input/input.component';
 import { DatePickerComponent } from './components/date-picker/date-picker.component';
-import { WorkItemComponent } from './components/work-item/work-item.component';
+import { LayoutComponent } from './components/layout/layout.component';
 
 
 @NgModule({
@@ -22,7 +22,7 @@ import { WorkItemComponent } from './components/work-item/work-item.component';
     QuerysComponent,
     InputComponent,
     DatePickerComponent,
-    WorkItemComponent,
+    LayoutComponent,
   ],
   imports: [
     BrowserModule,

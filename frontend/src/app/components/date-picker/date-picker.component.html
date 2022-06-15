@@ -1,11 +1,11 @@
 
   <label for="datepicker" class="text-gray-500 block">Fecha:</label>
-  <div class="relative">
+  <div class="relative" [formGroup]="form">
     <input type="hidden" name="date" x-ref="date" />
     <input
       type="text"
       readonly
-      [(ngModel)]="datepickerValue"
+      [formControlName]="controlName"
       (click)="changeState()"
       (keydown.escape)="changeState(false)"
       class="
