@@ -1,6 +1,7 @@
-from src.controllers.invoices_controller import InvoicesController, InvoicesQueryController
+from src.controllers.invoices_controller import InvoiceController
+from src.controllers.querys_controller import QueryController
 
 routes = {
-    "invoices": "/invoices/create", "invoices_controller": InvoicesController.as_view("invoices"),
-    "invoice_query": "/invoices/query", "invoice_query_controller": InvoicesQueryController.as_view("invoice_query")
+    "invoice": "/create/invoice", "invoice_controller": InvoiceController.as_view("invoice"),
+    "query": "/query/<doc_type>", "query_controller": QueryController.as_view("query")
 }
