@@ -1,0 +1,27 @@
+main{
+  @apply grid min-h-screen grid-rows-layout;
+}
+
+nav{
+  @apply mt-4 bg-white px-2 py-2.5 rounded;
+}
+
+.nav-container{
+  @apply container flex flex-wrap justify-between items-center mx-auto;
+}
+
+.left{
+  @apply flex gap-4 items-center;
+}
+
+.left a{
+  @apply text-4xl font-semibold;
+}
+
+ul{
+  @apply flex flex-row space-x-8 mt-0 text-xl font-medium;
+}
+
+li a{
+  @apply block rounded bg-transparent;
+}

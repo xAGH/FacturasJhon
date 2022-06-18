@@ -12,7 +12,6 @@ import { InputComponent } from './components/input/input.component';
 import { DatePickerComponent } from './components/date-picker/date-picker.component';
 import { LayoutComponent } from './components/layout/layout.component';
 
-
 @NgModule({
   declarations: [
     AppComponent,
