@@ -14,12 +14,22 @@ section{
   @apply w-[90%] overflow-auto py-8 px-4 border-4 rounded-md flex flex-wrap items-center justify-evenly gap-5;
 }
 
-.section-name{
-  @apply text-xl text-center mb-10 underline;
-}
-
 .button{
   @apply text-white focus:ring-4 
            focus:outline-none focus:ring-blue-300 font-medium 
            rounded-lg w-full sm:w-auto text-center
+}
+
+.select{
+  @apply w-full py-1.5 mb-4 text-base font-normal
+         bg-transparent bg-clip-padding bg-no-repeat border-b-2
+         rounded transition ease-in-out m-0 focus:outline-none;
+}
+
+.invalid{
+  @apply border-red-600 focus:border-red-800 text-red-600 focus:text-red-700;
+}
+
+.valid{
+  @apply border-gray-300 focus:border-blue-600 text-gray-700 focus:text-gray-700;
 }

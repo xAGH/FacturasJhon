@@ -17,11 +17,11 @@ export class InputComponent implements OnInit {
   @Output() inputChange = new EventEmitter<any>();
   form!: FormGroup;
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private _fb: FormBuilder) { }
 
   ngOnInit(): void {
-    this.form = this.fb.group({
-      [this.controlName]: [this.controlValue ? this.controlValue : '', this.controlValidators ? this.controlValidators : []]
+    this.form = this._fb.group({
+      [this.controlName]: [this.controlValue ? this.controlValue : null, this.controlValidators ? this.controlValidators : []]
     });
   }
 

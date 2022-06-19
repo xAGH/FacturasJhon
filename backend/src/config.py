@@ -10,4 +10,5 @@ class APP():
     PORT = 3000
     DEBUG = True
     DATE_FORMAT = '%Y-%m-%d'
+    CORS_ORIGINS = 'localhost:4200' if getenv("CORS_ORIGINS") is None else getenv("CORS_ORIGINS")
     SECRET = 'secret'

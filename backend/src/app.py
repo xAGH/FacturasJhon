@@ -1,5 +1,6 @@
 from src.config import APP
 from flask import Flask
+from flask_cors import CORS
 from src.routes import routes
 
 class Application():
@@ -14,13 +15,16 @@ class Application():
     def __configure(cls):
         cls.app.config["RUN_CONFIG"] = dict(host=APP.HOST, port=APP.PORT, debug=APP.DEBUG)
         cls.app.config["SECRET_KEY"] = APP.SECRET
-        cls.app.template_folder = 'views/templates'
-        cls.app.static_folder = 'views/static'
+        CORS(cls.app, resources={
+            r"/*": {
+                "origins": [APP.CORS_ORIGINS, "*"]
+            }
+        }, supports_credentials=True)
         cls.__register_routes()
 
     @classmethod
     def __register_routes(cls):
-        cls.app.add_url_rule(routes["invoice"], view_func=routes["invoice_controller"], methods=["GET", "POST"])
+        cls.app.add_url_rule(routes["documents"], view_func=routes["documents_controller"], methods=["GET", "POST"])
         cls.app.add_url_rule(routes["query"], view_func=routes["query_controller"], methods=["GET", "POST"])
         
         @cls.app.errorhandler(404)

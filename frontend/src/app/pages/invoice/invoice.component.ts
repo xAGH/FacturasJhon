@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { PDF } from 'src/app/interfaces/pdf';
+import { PDFService } from 'src/app/services/pdf.service';
 
 @Component({
   selector: 'app-invoice',
@@ -12,12 +14,14 @@ export class InvoiceComponent implements OnInit {
   work_counter = 0;
   invoiceForm!: FormGroup;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(
+    private _fb: FormBuilder,
+    private pdf: PDFService
+    ) {}
 
   ngOnInit(): void {
-    this.invoiceForm = this.fb.group(this.formControls);
+    this.invoiceForm = this._fb.group(this.formControls);
     this.pushWork(this.createWork());
-    console.log(this.formControls.client_name[0]);
   }
 
   ngOnDestroy(): void {
@@ -26,29 +30,33 @@ export class InvoiceComponent implements OnInit {
 
   get formControls(){
     return {
-      date: ['', [Validators.required]],
-      client_name: ['', [Validators.required]],
-      client_phone: ['', [Validators.required]],
-      client_document: ['', [Validators.required]],
-      client_address: ['', [Validators.required]],
-      works: this.fb.array([])
+      doc_type: ['Seleccione el tipo', [Validators.required, Validators.pattern(/invoice|budget/)]],
+      date: [null, [Validators.required]],
+      client_name: ['Alejo', [Validators.required]],
+      client_phone: ['3013258495', [Validators.required]],
+      client_document: ['10049916686', [Validators.required]],
+      client_address: ['Bosques de pinares Mz 11 # 45', [Validators.required]],
+      expiration_date: [null, [Validators.required]],
+      works: this._fb.array([])
     }
   }
 
   get formWorkControls() {
+    let numberDecimalPattern = /^\d{0,10}(?:[.,]\d{1,4})?$/
+    let numberParttern = /^\d{0,4}$/
     return {
-        concept: ['', [Validators.required]],
-        price: ['', [Validators.required]],
-        quantity: ['', [Validators.required]],
+        concept: ['Pintura de casa', [Validators.required]],
+        price: [1000, [Validators.required, Validators.pattern(numberDecimalPattern)]],
+        quantity: [1, [Validators.required, Validators.pattern(numberParttern)]],
       };
-  }
-
-  createWork(): FormGroup {
-    return this.fb.group(this.formWorkControls);
   }
 
   get worksArray() : FormArray {
     return this.invoiceForm.get("works") as FormArray
+  }
+
+  createWork(): FormGroup {
+    return this._fb.group(this.formWorkControls);
   }
 
   pushWork(work: FormGroup){
@@ -76,13 +84,23 @@ export class InvoiceComponent implements OnInit {
     });
   }
 
-  onSubmit(){
-    if(this.invoiceForm.valid){
-      console.log(this.invoiceForm.value);
-    }
-    else{
-
-    }
+  selectIsValid(): string{
+    return this.invoiceForm.controls['doc_type'].invalid ? 'invalid' : 'valid'
   }
 
+  onSubmit(){
+    if(this.invoiceForm.valid){
+      let data = this.invoiceForm.value;
+      data.date = data.date.match(/\d{4}-\d{2}-\d{2}/) ? data.date : data.date.split('-').reverse().join('-');
+      data.expiration_date = data.expiration_date.match(/\d{4}-\d{2}-\d{2}/) ? data.expiration_date : data.expiration_date.split('-').reverse().join('-');
+      data.works.forEach((work: any) => {
+        work.price = parseFloat(work.price);
+        work.quantity = parseInt(work.quantity);
+      })
+      this.pdf.generate(data)
+    }
+    else{
+      alert('Rellene todos los campos del formulario.')
+    }
+  }
 }

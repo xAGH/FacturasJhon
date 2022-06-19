@@ -1,8 +1,16 @@
 <form [formGroup]="invoiceForm" (ngSubmit)="onSubmit()">
 
   <section class="client">
-    <p class="section-name">Informacion del cliente:</p>
-      <app-date-picker class="mb-5" controlName="date" (inputChange)="onFormValue($event)"></app-date-picker>
+      <div>
+        <label for="doc_type" class="text-sm text-gray-500">Tipo de PDF:</label>
+        <select formControlName="doc_type" class="select" [ngClass]="selectIsValid()" aria-label="Default select example">
+          <option>Seleccione el tipo</option>
+          <option value="invoice">Factura</option>
+          <option value="budget">Presupuesto</option>
+        </select>
+      </div>
+    <app-date-picker class="mb-5" controlName="date" label="Fecha:" (inputChange)="onFormValue($event)"></app-date-picker>
+      <app-date-picker class="mb-5" controlName="expiration_date" label="Fecha de vencimiento:" (inputChange)="onFormValue($event)"></app-date-picker>
       <app-input 
         type="text" 
         name="client_name" 
@@ -38,7 +46,6 @@
   </section>
 
   <section class="works">
-    <p class="section-name">Trabajos</p>
     <div class="works-container" formArrayName="works">
       <div *ngFor="let work of worksArray.controls; index as i" class="flex flex-col bg-gray-200 rounded-md shadow-md px-5 py-4">
           <p class="pb-4">Trabajo #{{i+1}}</p>
@@ -52,7 +59,7 @@
           <app-input type="number"
           name="price"
           controlName="price"
-          label="Valor"
+          label="Valor €"
           [controlValue]="formWorkControls.price[0]"
           [controlValidators]="formWorkControls.price[1]"
           (inputChange)="onWorkFormValue($event, i)"></app-input>
@@ -75,8 +82,7 @@
   </section>
 
   <div class="col-start-2 col-end-2 flex justify-center gap-16">
-    <button type="submit" class="button px-5 py-2.5 bg-green-500 hover:bg-green-600">Generar Factura</button>
     <button type="button" class="button px-5 py-2.5 bg-blue-600 hover:bg-blue-700" (click)="pushWork(createWork())">Agregar trabajo</button>
-  
+    <button type="submit" class="button px-5 py-2.5 bg-green-500 hover:bg-green-600">Generar Factura</button>
   </div>
 </form>

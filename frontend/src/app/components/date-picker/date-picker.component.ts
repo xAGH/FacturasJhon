@@ -26,6 +26,7 @@ export class DatePickerComponent implements OnInit {
   ];
 
   @Input() controlName!: string;
+  @Input() label!: string;
   form!: FormGroup;
   @Output() inputChange = new EventEmitter<any>();
   
@@ -39,15 +40,14 @@ export class DatePickerComponent implements OnInit {
   blankdays = [] as number[];
   pattern = /\d{4}-\d{2}-\d{2}/;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private _fb: FormBuilder) {}
 
   ngOnInit(): void {
-    this.form = this.fb.group({
+    this.form = this._fb.group({
       [this.controlName]: ['', []]
     });
     this.initDate();
     this.getNoOfDays();
-    // this.emitFormValue()
   }
 
   formatDate(date: Date): string{
@@ -58,6 +58,9 @@ export class DatePickerComponent implements OnInit {
   setDatePickerValue(){
     this.form.controls[this.controlName].setValue(this.datepickerValue);
     this.inputChange.emit(this.form.value);
+    let actualValue = this.datepickerValue.split('-');
+    let month = this.MONTH_NAMES[parseInt(actualValue[1]) - 1];    
+    this.form.controls[this.controlName].setValue(`${actualValue[0]} de ${month} del ${actualValue[2]}`);
   }
 
   initDate() {
@@ -90,12 +93,12 @@ export class DatePickerComponent implements OnInit {
     let dayOfWeek = new Date(this.year, this.month).getDay();
     let blankdaysArray = [];
     for (var i = 1; i <= dayOfWeek; i++) {
-      blankdaysArray.push(i);
+      blankdaysArray.push(i as never);
     }
 
     let daysArray = [];
     for (var i = 1; i <= daysInMonth; i++) {
-      daysArray.push(i);
+      daysArray.push(i as never);
     }
 
     this.blankdays = blankdaysArray;
