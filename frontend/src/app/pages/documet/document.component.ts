@@ -1,18 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { PDF } from 'src/app/interfaces/pdf';
 import { PDFService } from 'src/app/services/pdf.service';
 
 @Component({
-  selector: 'app-invoice',
-  templateUrl: './invoice.component.html',
-  styleUrls: ['./invoice.component.css']
+  selector: 'app-document',
+  templateUrl: './document.component.html',
+  styleUrls: ['./document.component.css']
 })
-export class InvoiceComponent implements OnInit {
+export class DocumentComponent implements OnInit {
   
   date = new Date().toISOString().match(/\d{4}-\d{2}-\d{2}/);
   work_counter = 0;
-  invoiceForm!: FormGroup;
+  form!: FormGroup;
 
   constructor(
     private _fb: FormBuilder,
@@ -20,7 +19,7 @@ export class InvoiceComponent implements OnInit {
     ) {}
 
   ngOnInit(): void {
-    this.invoiceForm = this._fb.group(this.formControls);
+    this.form = this._fb.group(this.formControls);
     this.pushWork(this.createWork());
   }
 
@@ -30,7 +29,7 @@ export class InvoiceComponent implements OnInit {
 
   get formControls(){
     return {
-      doc_type: ['Seleccione el tipo', [Validators.required, Validators.pattern(/invoice|budget/)]],
+      doc_type: ['invoice', [Validators.required, Validators.pattern(/invoice|budget/)]],
       date: [null, [Validators.required]],
       client_name: ['Alejo', [Validators.required]],
       client_phone: ['3013258495', [Validators.required]],
@@ -52,7 +51,7 @@ export class InvoiceComponent implements OnInit {
   }
 
   get worksArray() : FormArray {
-    return this.invoiceForm.get("works") as FormArray
+    return this.form.get("works") as FormArray
   }
 
   createWork(): FormGroup {
@@ -72,7 +71,7 @@ export class InvoiceComponent implements OnInit {
   onFormValue(value: any){
     let keys = Object.keys(value);
     keys.forEach(key => {
-      this.invoiceForm.get(key)!.setValue(value[key]);
+      this.form.get(key)!.setValue(value[key]);
     });
   }
 
@@ -85,12 +84,12 @@ export class InvoiceComponent implements OnInit {
   }
 
   selectIsValid(): string{
-    return this.invoiceForm.controls['doc_type'].invalid ? 'invalid' : 'valid'
+    return this.form.controls['doc_type'].invalid ? 'invalid' : 'valid'
   }
 
   onSubmit(){
-    if(this.invoiceForm.valid){
-      let data = this.invoiceForm.value;
+    if(this.form.valid){
+      let data = this.form.value;
       data.date = data.date.match(/\d{4}-\d{2}-\d{2}/) ? data.date : data.date.split('-').reverse().join('-');
       data.expiration_date = data.expiration_date.match(/\d{4}-\d{2}-\d{2}/) ? data.expiration_date : data.expiration_date.split('-').reverse().join('-');
       data.works.forEach((work: any) => {

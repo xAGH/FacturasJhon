@@ -1,76 +1,19 @@
-import { Injectable } from '@angular/core';
-import { PDF } from '../interfaces/pdf';
-import * as html2pdf from 'html2pdf.js'
-import { environment } from 'src/environments/environment';
-import { HttpClientService } from './http-client.service';
-import { map, Observable } from 'rxjs';
-
-type Response = {
-  response: PDF
-}
-
-@Injectable({
-  providedIn: 'root'
-})
-export class PDFService {
-
-  constructor(private _client: HttpClientService) {}
-  
-  generate(data: PDF) {
-    let url = environment.apiUrl + environment.createDocumentEndpoint;
-    return this._client.post<Response>(url, data).pipe(
-      map((res: Response) => res.response)
-    ).subscribe(
-      {
-        next: ((res: PDF) => {
-          res.doc_type = data.doc_type == 'invoice' ? 'Factura' : 'Presupuesto';
-          this._generatePDF(res);
-        })
-      }
-    )
-  }
-
-  private _generatePDF(data: PDF){
-    data.date = this._formatDate(data.date);
-    data.expiration_date = this._formatDate(data.expiration_date);
-    let element = this._generateHtml(data);
-    const options = {
-      filename: data.invoice_no ? data.invoice_no : data.budget_no,
-      html2canvas: { scale: 2 },
-      margin: 0
-    };
-    html2pdf().set(options).from(element).save();
-  }
-
-  private _formatDate(date: string): string{
-    return date.match(/\d{2}-\d{2}-\d{4}/) ? date : date.split('-').reverse().join('-');
-  }
-
-  private _generateHtml(data: PDF): string{
-    let works = "";
-    data.works.forEach(work => {
-      works += `
-      <tr style="text-align: right; border-bottom-width: 1px; ">
-        <th scope="row"
-            style="padding-top: 1rem;padding-bottom: 1rem; padding-left: 1.5rem;padding-right: 1.5rem; color: #111827; text-align: left; ">
-            ${work.concept}</th>
-        <td style="padding-top: 1rem;padding-bottom: 1rem; padding-left: 1.5rem;padding-right: 1.5rem; ">€
-            ${work.price}</td>
-        <td style="padding-top: 1rem;padding-bottom: 1rem; padding-left: 1.5rem;padding-right: 1.5rem; ">
-            ${work.quantity}</td>
-        <td style="padding-top: 1rem;padding-bottom: 1rem; padding-left: 1.5rem;padding-right: 1.5rem; ">€
-            ${work.total}</td>
-      </tr>
-      `
-    })
-    return  `
-    <style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <style>
     tr:nth-child(even) {
         background-color: #F3F4F6;
     }
     </style>
     <div
-        style="display: grid; padding-left: 2.5rem;padding-right: 2.5rem; width: 100%; min-height: 116vh; background-color:red; grid-template-rows: repeat(4, minmax(0, 1fr)); gap: 0.25rem;">
+        style="display: grid; padding-left: 2.5rem;padding-right: 2.5rem; width: 100%; height: 100vh; grid-template-rows: repeat(4, minmax(0, 1fr)); gap: 0.25rem;">
         <div style="display: flex; justify-content: space-between; ">
             <div style="display: flex; align-items: center; "><img style="padding-right: 2rem; width: 170px;" src="../../assets/icon.png" alt="icon">
                 <div style="display: flex; flex-direction: column;">
@@ -157,22 +100,20 @@ export class PDFService {
                     </tr>
                 </tbody>
             </table>
-            <div style="font-size: 1.2rem; position: absolute; right: 2rem; bottom:1rem;">
-              <p style="text-decoration: underline ;">
+            <div style="margin-top: 4rem; font-size: 1.2rem; position: absolute; bottom: 0; right: 2rem;">
+              <p style="font-style: italic; font-size: 1.3rem; text-decoration: underline ;">
                 Formas de pago:
               </p>
-              <ul style="font-size:1rem;">
+              <ul style="font-size: 1rem; list-style: decimal; ">
                 <li>
-                  - EN EFECTIVO
+                  EN EFECTIVO
                 </li >
                 <li>
-                  - TRANSFERENCIA BANCARIA N°: ES15 0182 4700 1702 0167 9668 (BBVA)
+                  TRANSFERENCIA BANCARIA N°: ES15 0182 4700 1702 0167 9668 (BBVA)
                 </li >
               </ul>
             </div>
         </div>
     </div>
-    `
-  }
-
-}
+</body>
+</html>

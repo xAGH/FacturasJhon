@@ -1,4 +1,4 @@
-<form [formGroup]="invoiceForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
 
   <section class="client">
       <div>
@@ -83,6 +83,6 @@
 
   <div class="col-start-2 col-end-2 flex justify-center gap-16">
     <button type="button" class="button px-5 py-2.5 bg-blue-600 hover:bg-blue-700" (click)="pushWork(createWork())">Agregar trabajo</button>
-    <button type="submit" class="button px-5 py-2.5 bg-green-500 hover:bg-green-600">Generar Factura</button>
+    <button type="submit" class="button px-5 py-2.5 bg-green-500 hover:bg-green-600">Generar</button>
   </div>
 </form>

@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { InvoiceComponent, QuerysComponent } from './pages';
+import { DocumentComponent, QuerysComponent } from './pages';
 
 const routes: Routes = [
-  { path: 'create', component: InvoiceComponent },
+  { path: 'create', component: DocumentComponent },
   { path: 'querys', component: QuerysComponent },
   { path: '**', redirectTo: 'create' },
 ];
