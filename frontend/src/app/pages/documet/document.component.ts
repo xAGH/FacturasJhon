@@ -31,10 +31,10 @@ export class DocumentComponent implements OnInit {
     return {
       doc_type: ['invoice', [Validators.required, Validators.pattern(/invoice|budget/)]],
       date: [null, [Validators.required]],
-      client_name: ['Alejo', [Validators.required]],
-      client_phone: ['3013258495', [Validators.required]],
-      client_document: ['10049916686', [Validators.required]],
-      client_address: ['Bosques de pinares Mz 11 # 45', [Validators.required]],
+      client_name: [null, [Validators.required]],
+      client_phone: [null, [Validators.required]],
+      client_document: [null, [Validators.required]],
+      client_address: [null, [Validators.required]],
       expiration_date: [null, [Validators.required]],
       works: this._fb.array([])
     }
@@ -44,9 +44,9 @@ export class DocumentComponent implements OnInit {
     let numberDecimalPattern = /^\d{0,10}(?:[.,]\d{1,4})?$/
     let numberParttern = /^\d{0,4}$/
     return {
-        concept: ['Pintura de casa', [Validators.required]],
-        price: [1000, [Validators.required, Validators.pattern(numberDecimalPattern)]],
-        quantity: [1, [Validators.required, Validators.pattern(numberParttern)]],
+        concept: [null, [Validators.required]],
+        price: [null, [Validators.required, Validators.pattern(numberDecimalPattern)]],
+        quantity: [null, [Validators.required, Validators.pattern(numberParttern)]],
       };
   }
 

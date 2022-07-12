@@ -70,7 +70,7 @@ export class PDFService {
     }
     </style>
     <div
-        style="display: grid; padding-left: 2.5rem;padding-right: 2.5rem; width: 100%; min-height: 116vh; background-color:red; grid-template-rows: repeat(4, minmax(0, 1fr)); gap: 0.25rem;">
+        style="display: grid; padding-left: 2.5rem;padding-right: 2.5rem; width: 100%; min-height: 110vh;grid-template-rows: repeat(4, minmax(0, 1fr)); gap: 0.25rem;">
         <div style="display: flex; justify-content: space-between; ">
             <div style="display: flex; align-items: center; "><img style="padding-right: 2rem; width: 170px;" src="../../assets/icon.png" alt="icon">
                 <div style="display: flex; flex-direction: column;">
@@ -157,11 +157,11 @@ export class PDFService {
                     </tr>
                 </tbody>
             </table>
-            <div style="font-size: 1.2rem; position: absolute; right: 2rem; bottom:1rem;">
+            <div style="position: absolute; right: 2rem; bottom:1rem; font-size:0.9rem;">
               <p style="text-decoration: underline ;">
                 Formas de pago:
               </p>
-              <ul style="font-size:1rem;">
+              <ul>
                 <li>
                   - EN EFECTIVO
                 </li >
