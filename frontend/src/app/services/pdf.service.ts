@@ -3,7 +3,7 @@ import { PDF } from '../interfaces/pdf';
 import * as html2pdf from 'html2pdf.js'
 import { environment } from 'src/environments/environment';
 import { HttpClientService } from './http-client.service';
-import { map, Observable } from 'rxjs';
+import { map } from 'rxjs';
 
 type Response = {
   response: PDF
@@ -70,7 +70,7 @@ export class PDFService {
     }
     </style>
     <div
-        style="display: grid; padding-left: 2.5rem;padding-right: 2.5rem; width: 100%; min-height: 110vh;grid-template-rows: repeat(4, minmax(0, 1fr)); gap: 0.25rem;">
+        style="background-color:red;min-height:129vh;  display: grid; padding: 0 2.5rem 0 2.5rem; width: 100%;grid-template-rows: 15% 20% auto; gap: 0.25rem;">
         <div style="display: flex; justify-content: space-between; ">
             <div style="display: flex; align-items: center; "><img style="padding-right: 2rem; width: 170px;" src="../../assets/icon.png" alt="icon">
                 <div style="display: flex; flex-direction: column;">
@@ -110,7 +110,7 @@ export class PDFService {
         </div>
         <div style="grid-row: span 2 / span 2; ">
             <table
-                style="color: #6B7280; font-size: 0.875rem;line-height: 1.25rem; text-align: left; width: 100%; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); ">
+                style="margin:25px 0 25px 0;color: #6B7280; font-size: 0.875rem;line-height: 1.25rem; text-align: left; width: 100%; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); ">
                 <thead style="background-color: #F9FAFB; color: #374151; text-transform: uppercase; ">
                     <tr style="font-size: 1rem;line-height: 1.5rem; text-align: right; ">
                         <th scope="col"
@@ -157,19 +157,11 @@ export class PDFService {
                     </tr>
                 </tbody>
             </table>
-            <div style="position: absolute; right: 2rem; bottom:1rem; font-size:0.9rem;">
-              <p style="text-decoration: underline ;">
-                Formas de pago:
-              </p>
-              <ul>
-                <li>
-                  - EN EFECTIVO
-                </li >
-                <li>
-                  - TRANSFERENCIA BANCARIA N°: ES15 0182 4700 1702 0167 9668 (BBVA)
-                </li >
-              </ul>
-            </div>
+            <br/>
+            <br/>
+            <div style="width:100%; text-align:center;">
+              Los trabajos realizados se entregarán a plena satisfacción del cliente.
+            <div>
         </div>
     </div>
     `

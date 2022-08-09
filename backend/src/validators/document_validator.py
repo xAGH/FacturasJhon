@@ -11,7 +11,7 @@ class DocumentValidator(Schema):
     date = fields.DateTime(format=APP.DATE_FORMAT, required=True)
     expiration_date = fields.DateTime(format=APP.DATE_FORMAT, required=True)
     works = fields.List(fields.Nested({
-        'concept': fields.String(required=True, validate=validate.Length(min=1, max=20)),
+        'concept': fields.String(required=True, validate=validate.Length(min=1, max=500)),
         'price': fields.Decimal(required=True),
         'quantity': fields.Integer(required=True)
     }), required=True, validate=validate.Length(min=1))
